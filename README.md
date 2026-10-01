@@ -17,8 +17,13 @@ O SCORM pode ser configurado como **1.2** — padrão de maior compatibilidade �
 ## Identidade visual
 
 - `assets/aula-mark.svg`: símbolo usado no editor e nos temas;
+- `assets/brand/aula-studio-mark.png`: símbolo raster de alta resolução;
 - `assets/brand/aula-studio-logo.svg`: logo horizontal;
+- `assets/brand/aula-studio-logo.png`: logo raster para documentos e apresentações;
 - `assets/brand/aula-studio-cover.svg`: capa editorial horizontal;
-- `assets/favicon.svg`: favicon.
+- `assets/brand/aula-studio-cover.png`: capa PNG para redes sociais e compartilhamento;
+- `assets/favicon.svg` e `assets/favicon-32.png`: favicons SVG e PNG;
+- `assets/apple-touch-icon.png`: ícone para iPhone/iPad;
+- `assets/site.webmanifest`: metadados de instalação como aplicativo.
 
 O símbolo e a capa usam uma linguagem de página aberta, autoria e centelha de aprendizagem, com terracota, papel, dourado e tinta profunda.

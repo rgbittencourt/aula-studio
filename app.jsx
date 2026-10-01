@@ -430,7 +430,7 @@ function Palette({ onDragType, onAdd }) {
   return (
     <aside className="tool-scroll" style={{ background: "var(--tool-panel)", overflowY: "auto", height: "100vh", padding: "14px 12px" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "2px 4px 14px" }}>
-          <img src={(window.AULA_BASE || "") + "assets/aula-mark.svg"} alt="" width="26" height="26" style={{ display: "block", borderRadius: 7 }} />
+          <img src={(window.AULA_BASE || "") + "assets/brand/aula-studio-mark.png"} alt="" width="26" height="26" style={{ display: "block", borderRadius: 7 }} />
         <span style={{ fontWeight: 700, fontSize: 15 }}>Aula Studio</span>
       </div>
       {window.BLOCK_CATS.map((cat) => (
