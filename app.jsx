@@ -114,6 +114,17 @@ function normalizeTopicStructure(blocks) {
   });
   return out;
 }
+function extractProjectPayload(data) {
+  const candidates = [
+    data,
+    data?.lesson,
+    data?.project,
+    ...(Array.isArray(data?.weeks) ? data.weeks : []),
+  ].filter(Boolean);
+  const project = candidates.find((candidate) => Array.isArray(candidate.blocks) && candidate.blocks.length > 0);
+  if (!project) throw new Error("Este JSON não contém blocos editáveis. Abra o arquivo semana-XX-*.aula.json baixado em Baixar JSON, e não planejamento-geral.json ou o guia do professor.");
+  return { meta: project.meta || {}, blocks: normalizeTopicStructure(project.blocks) };
+}
 function reviseRichNotes(blocks, kind, original, next) {
   const editHtml = (html) => { const box=document.createElement("div"); box.innerHTML=html;
     if(kind==="glossary") box.querySelectorAll(".termo").forEach((el)=>{ const pop=el.querySelector(".termo__pop"), term=(pop?.querySelector(".termo__word")?.textContent||el.childNodes[0]?.textContent||"").trim(), def=(pop?.querySelector(".termo__def")?.textContent||"").trim(); if(term!==original.term||def!==original.def)return; if(!next){ const text=document.createTextNode(term); el.replaceWith(text); return; } const word=pop?.querySelector(".termo__word"), definition=pop?.querySelector(".termo__def"); if(el.firstChild?.nodeType===3) el.firstChild.textContent=next.term; if(word) word.textContent=next.term; if(definition) definition.textContent=next.def; });
@@ -321,9 +332,9 @@ function AulaStudioApp() {
     r.onload = () => {
       try {
         const data = JSON.parse(String(r.result));
-        if (!data || !Array.isArray(data.blocks)) throw new Error("Arquivo não parece um projeto AulaStudio.");
+        const project = extractProjectPayload(data);
         pushHistory();
-        setLesson({ meta: data.meta || {}, blocks: normalizeTopicStructure(data.blocks) });
+        setLesson(project);
         setSelected(null);
       } catch (err) { alert("Não consegui abrir o projeto: " + err.message); }
     };
