@@ -1,6 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Aula mark">
-  
-  <rect width="64" height="64" rx="12" fill="#FBF6EE"></rect>
-  <path d="M32 12 C 38 22, 46 26, 46 38 C 46 48, 39 54, 32 54 C 25 54, 18 48, 18 38 C 18 32, 22 28, 24 24 C 26 30, 30 30, 30 24 C 30 20, 32 16, 32 12 Z" fill="#D85C3C"></path>
-  <path d="M32 28 C 35 33, 39 35, 39 41 C 39 47, 35 50, 32 50 C 29 50, 25 47, 25 41 C 25 38, 27 35, 29 33 C 30 36, 32 36, 32 33 C 32 31, 32 30, 32 28 Z" fill="#FFCB47"></path>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title>Marca do Aula Studio</title>
+  <desc>Uma página aberta com uma centelha de autoria.</desc>
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="#FBF6EE"/>
+  <path d="M24 37c15-8 29-7 40 2v62c-12-8-25-9-40-2V37Z" fill="#D85C3C"/>
+  <path d="M104 37c-15-8-29-7-40 2v62c12-8 25-9 40-2V37Z" fill="#B94C32"/>
+  <path d="M64 39v62" stroke="#FBF6EE" stroke-width="5" stroke-linecap="round"/>
+  <path d="M92 17c4 9 11 12 19 15-8 2-15 6-19 15-4-9-11-13-19-15 8-3 15-6 19-15Z" fill="#FFCB47"/>
+  <path d="M40 57h16M40 68h16M72 57h16M72 68h16" stroke="#FBE7E0" stroke-width="5" stroke-linecap="round"/>
 </svg>

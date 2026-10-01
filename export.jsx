@@ -370,6 +370,23 @@ async function downloadExport(lesson) {
   setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
 
+// Download a single, self-contained HTML file for opening directly in a
+// browser or attaching to a site that does not accept a ZIP package. Fonts
+// and theme assets are embedded; remote media links remain remote by design.
+async function downloadStandaloneHTML(lesson) {
+  const L = JSON.parse(JSON.stringify(lesson));
+  const html = await buildExportHTML(L, { fonts: "embed", assets: "embed" });
+  const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = lessonSlug(lesson.meta?.title) + ".html";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
 async function openPrintPreview(lesson) {
   const target = window.open("about:blank", "_blank");
   if (!target) throw new Error("O navegador bloqueou a janela de impressão. Permita pop-ups para este site.");
@@ -541,4 +558,4 @@ async function downloadSCORM(lesson, opts) {
   setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
 
-Object.assign(window, { downloadExport, buildExportHTML, downloadSCORM, openPrintPreview });
+Object.assign(window, { downloadExport, downloadStandaloneHTML, buildExportHTML, downloadSCORM, openPrintPreview });

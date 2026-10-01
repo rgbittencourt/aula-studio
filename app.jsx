@@ -344,6 +344,9 @@ function AulaStudioApp() {
   const exportHTML = async () => {
     try { await window.downloadExport(lesson); } catch (e) { alert("Erro ao exportar: " + e.message); }
   };
+  const exportStandaloneHTML = async () => {
+    try { await window.downloadStandaloneHTML(lesson); } catch (e) { alert("Erro ao exportar HTML: " + e.message); }
+  };
   const printPDF = async () => {
     try { await window.openPrintPreview(lesson); } catch (e) { alert("Erro ao preparar PDF: " + e.message); }
   };
@@ -389,7 +392,7 @@ function AulaStudioApp() {
         <Topbar
           lesson={lesson} setLesson={commit} mode={mode} setMode={setMode}
           onUndo={undo} canUndo={history.current.length > 0}
-          onExportHTML={exportHTML} onExportSCORM={() => setScormOpen(true)} onPrintPDF={printPDF}
+          onExportHTML={exportHTML} onExportStandaloneHTML={exportStandaloneHTML} onExportSCORM={() => setScormOpen(true)} onPrintPDF={printPDF}
           onOpenProject={openProjectClick} onDownloadProject={downloadProject}
           onRichNotes={() => setRichOpen(true)}
           onClear={() => setClearOpen(true)} canClear={hasLessonContent}
@@ -427,7 +430,7 @@ function Palette({ onDragType, onAdd }) {
   return (
     <aside className="tool-scroll" style={{ background: "var(--tool-panel)", overflowY: "auto", height: "100vh", padding: "14px 12px" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "2px 4px 14px" }}>
-        <div style={{ width: 26, height: 26, borderRadius: 7, background: "var(--tool-accent)", display: "grid", placeItems: "center", color: "#fff", fontWeight: 800, fontSize: 15, fontFamily: "var(--font-serif)" }}>L</div>
+          <img src={(window.AULA_BASE || "") + "assets/aula-mark.svg"} alt="" width="26" height="26" style={{ display: "block", borderRadius: 7 }} />
         <span style={{ fontWeight: 700, fontSize: 15 }}>Aula Studio</span>
       </div>
       {window.BLOCK_CATS.map((cat) => (
@@ -460,7 +463,7 @@ function RichNotesDialog({ lesson, onClose, onUpdate }) {
 const emptyNote={padding:18,border:"1px dashed var(--tool-line-2)",borderRadius:9,color:"var(--tool-ink-3)",fontSize:12};
 
 // ── Top bar ──
-function Topbar({ lesson, mode, setMode, onUndo, canUndo, onExportHTML, onExportSCORM, onPrintPDF, onOpenProject, onDownloadProject, onRichNotes, onClear, canClear }) {
+function Topbar({ lesson, mode, setMode, onUndo, canUndo, onExportHTML, onExportStandaloneHTML, onExportSCORM, onPrintPDF, onOpenProject, onDownloadProject, onRichNotes, onClear, canClear }) {
   const [busy, setBusy] = useStateA(false);
   const [menu, setMenu] = useStateA(false);
   const wrap = async (fn) => { setBusy(true); setMenu(false); try { await fn(); } finally { setBusy(false); } };
@@ -491,6 +494,14 @@ function Topbar({ lesson, mode, setMode, onUndo, canUndo, onExportHTML, onExport
             <>
               <div onClick={() => setMenu(false)} style={{ position: "fixed", inset: 0, zIndex: 41 }} />
               <div style={{ position: "absolute", top: "calc(100% + 6px)", right: 0, zIndex: 42, background: "#fff", border: "1px solid var(--tool-line)", borderRadius: 10, boxShadow: "0 12px 32px rgba(0,0,0,0.16)", width: 248, overflow: "hidden" }}>
+                <button onClick={() => { setMenu(false); onDownloadProject(); }} style={menuItem}>
+                  <span style={{ fontWeight: 600 }}>Projeto JSON (.aula.json)</span>
+                  <span style={menuSub}>Editável e próprio para reabrir no Aula Studio.</span>
+                </button>
+                <button onClick={() => wrap(onExportStandaloneHTML)} style={{ ...menuItem, borderTop: "1px solid var(--tool-line)" }}>
+                  <span style={{ fontWeight: 600 }}>Arquivo HTML (.html)</span>
+                  <span style={menuSub}>Um único arquivo para abrir diretamente no navegador.</span>
+                </button>
                 <button onClick={() => wrap(onExportHTML)} style={menuItem}>
                   <span style={{ fontWeight: 600 }}>Pacote HTML (.zip)</span>
                   <span style={menuSub}>Inclui index.html, imagens, fontes e assets do tema.</span>
