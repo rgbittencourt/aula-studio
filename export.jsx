@@ -262,6 +262,7 @@ function ExportCore({ block }) {
     case "referencias": return h(R.ReferenciasABNT, { title: p.title, items: p.items });
     case "prose": {
       const inlineVideo = p.inlineVideo && p.inlineVideo.id ? h("div", { className: "aula-prose-inline-video" }, h(R.VideoYouTube, { id: p.inlineVideo.id, title: p.inlineVideo.title, caption: p.inlineVideo.caption, credit: p.inlineVideo.credit, start: p.inlineVideo.start })) : null;
+      if (!inlineVideo) return h("div", { className: dropcapClass(p), dangerouslySetInnerHTML: { __html: p.body || "" } });
       return h("div", null, h("div", { className: dropcapClass(p), dangerouslySetInnerHTML: { __html: p.body || "" } }), inlineVideo);
     }
     case "eyebrow": return h(R.Eyebrow, { icon: p.icon }, htmlSpan(p.text));
