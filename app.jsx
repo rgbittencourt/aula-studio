@@ -44,9 +44,6 @@ function collectBlockLists(list, meta = { kind: "root", key: "root", owner: null
   });
   return out;
 }
-function countEditableBlocks(blocks) {
-  return collectBlockLists(blocks || []).reduce((total, ref) => total + (ref.list || []).length, 0);
-}
 function mapBlockDeep(block, id, mapper) {
   let next = block.id === id ? mapper(block) : block;
   let props = next.props || {};
@@ -422,7 +419,7 @@ function AulaStudioApp() {
       <window.MarkToolbar />
       <input ref={fileInputRef} type="file" accept=".json,application/json" onChange={onProjectFile} style={{ display: "none" }} />
       {scormOpen && <ScormDialog lesson={lesson} onClose={() => setScormOpen(false)} onConfirm={exportSCORM} />}
-      {clearOpen && <ClearDialog count={countEditableBlocks(lesson.blocks)} onClose={() => setClearOpen(false)} onConfirm={clearLesson} />}
+      {clearOpen && <ClearDialog count={(lesson.blocks || []).length} onClose={() => setClearOpen(false)} onConfirm={clearLesson} />}
       {richOpen && <RichNotesDialog lesson={lesson} onClose={() => setRichOpen(false)} onUpdate={(kind, original, next) => { pushHistory(); setLesson((L) => ({ ...L, blocks: reviseRichNotes(L.blocks, kind, original, next) })); }} />}
     </div>
   );
@@ -476,7 +473,7 @@ function Topbar({ lesson, mode, setMode, onUndo, canUndo, onExportHTML, onExport
         <ThemePicker />
         <span style={{ width: 1, height: 22, background: "var(--tool-line)" }} />
         <span style={{ fontWeight: 600, fontSize: 14, color: "var(--tool-ink)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{lesson.meta?.title || "Nova aula"}</span>
-        <span style={{ fontSize: 12, color: "var(--tool-ink-3)" }}>· {countEditableBlocks(lesson.blocks)} blocos</span>
+        <span style={{ fontSize: 12, color: "var(--tool-ink-3)" }}>· {lesson.blocks.length} blocos</span>
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
         <button onClick={onUndo} disabled={!canUndo} title="Desfazer (⌘Z)" style={{ ...ghostBtn, opacity: canUndo ? 1 : 0.4 }}><window.TIcon name="undo" size={15} /></button>
