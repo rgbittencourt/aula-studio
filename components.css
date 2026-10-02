@@ -518,6 +518,9 @@
 
 /* ─── VÍDEO (YouTube) ──────────────────────────────────────── */
 .aula-video { margin: 40px 0; width: 100%; }
+.aula-prose-inline-video { margin: 28px 0 38px; }
+.aula-prose-inline-video .aula-video { margin: 0; }
+.aula-video--inline { margin: 0; }
 .aula-video__frame {
   position: relative; width: 100%; aspect-ratio: 16/9;
   background: var(--ink); border-radius: var(--c-media-radius, 12px);

@@ -260,7 +260,10 @@ function ExportCore({ block }) {
     case "titulo": { var Tag = p.level === "h3" ? "h3" : "h2"; return h(Tag, { style: { margin: 0 }, dangerouslySetInnerHTML: { __html: p.text || "" } }); }
     case "sintese": return h(R.Sintese, { eyebrow: htmlSpan(p.eyebrow), title: htmlSpan(p.title), tocLabel: (p.eyebrow || "").replace(/<[^>]+>/g, "") }, html(p.body));
     case "referencias": return h(R.ReferenciasABNT, { title: p.title, items: p.items });
-    case "prose": return h("div", { className: dropcapClass(p), dangerouslySetInnerHTML: { __html: p.body || "" } });
+    case "prose": {
+      const inlineVideo = p.inlineVideo && p.inlineVideo.id ? h("div", { className: "aula-prose-inline-video" }, h(R.VideoYouTube, { id: p.inlineVideo.id, title: p.inlineVideo.title, caption: p.inlineVideo.caption, credit: p.inlineVideo.credit, start: p.inlineVideo.start })) : null;
+      return h("div", null, h("div", { className: dropcapClass(p), dangerouslySetInnerHTML: { __html: p.body || "" } }), inlineVideo);
+    }
     case "eyebrow": return h(R.Eyebrow, { icon: p.icon }, htmlSpan(p.text));
     case "citacao": return h(R.Citacao, { quote: htmlSpan(p.quote), author: htmlSpan(p.author), source: htmlSpan(p.source), showAttribution: p.showAttribution !== false });
     case "destaque": return h(R.Destaque, { title: htmlSpan(p.title), tone: p.tone, icon: p.icon }, html(p.body));
